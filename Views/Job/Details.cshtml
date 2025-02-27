@@ -1,0 +1,13 @@
+@model JobListing
+<h1>job details</h1>
+
+<ul>
+  <li>Id: @Model.Id</li>
+  <li>Company: @Model.Company</li>
+  <li>Title: @Model.Title</li>
+  <li>Location: @Model.Location</li>
+  <li>Type: @Model.Type</li>
+  <li>PostedDate: @Model.PostedDate.ToString().Split(" ")[0]</li>
+</ul>
+
+<a class="btn btn-info" asp-controller="Job" asp-action="Edit" asp-route-id="@Model.Id">Edit</a>

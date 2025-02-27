@@ -1,0 +1,103 @@
+@model JobListing
+
+<form id="jobForm" asp-controller="Job" asp-action="SaveEditing" asp-route-id="@Model.Id" method="post">
+  <div class="form-group">
+    <label for="title">Title:</label>
+    <input id="title" name="Title" type="text" value="@Model.Title" class="form-control">
+    <span id="titleError" class="text-danger"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="Company">Company:</label>
+    <input id="Company" name="Company" type="text" value="@Model.Company" class="form-control">
+    <span id="companyError" class="text-danger"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="Location">Location:</label>
+    <input id="Location" name="Location" type="text" value="@Model.Location" class="form-control">
+    <span id="locationError" class="text-danger"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="type">Job Type:</label>
+    <select id="type" name="Type" class="form-select">
+      @foreach (var jobType in (IEnumerable<JobType>)ViewBag.JobTypes)
+      {
+        <option value="@jobType">
+          @jobType
+        </option>
+      }
+    </select>
+    <span id="typeError" class="text-danger"></span>
+  </div>
+
+  <div class="form-group">
+    <label for="PostedDate">Posted Date:</label>
+    <input id="PostedDate" name="PostedDate" type="text" value="@Model.PostedDate.ToString("yyyy-MM-dd")"
+      class="form-control">
+    <span id="postedDateError" class="text-danger"></span>
+  </div>
+
+  <button type="submit" class="btn btn-primary mt-2">Save Changes</button>
+</form>
+
+@section Scripts {
+  <script>
+    document.getElementById("jobForm").addEventListener("submit", function (event) {
+      // Clear previous error messages
+      clearErrors();
+
+      let isValid = true;
+
+      // Title validation
+      let title = document.getElementById("title").value;
+      if (!title) {
+        isValid = false;
+        document.getElementById("titleError").innerText = "Title is required.";
+      }
+
+      // Company validation
+      let company = document.getElementById("Company").value;
+      if (!company) {
+        isValid = false;
+        document.getElementById("companyError").innerText = "Company is required.";
+      }
+
+      // Location validation
+      let location = document.getElementById("Location").value;
+      if (!location) {
+        isValid = false;
+        document.getElementById("locationError").innerText = "Location is required.";
+      }
+
+      // Job Type validation
+      let jobType = document.getElementById("type").value;
+      if (!jobType) {
+        isValid = false;
+        document.getElementById("typeError").innerText = "Job Type is required.";
+      }
+
+      // Posted Date validation (Date format: yyyy-mm-dd)
+      let postedDate = document.getElementById("PostedDate").value;
+      let datePattern = /^\d{4}-\d{2}-\d{2}$/; // regex to match yyyy-mm-dd format
+      if (!postedDate || !datePattern.test(postedDate)) {
+        isValid = false;
+        document.getElementById("postedDateError").innerText = "Please enter a valid date (yyyy-mm-dd).";
+      }
+
+      // If form is invalid, prevent form submission
+      if (!isValid) {
+        event.preventDefault();
+      }
+    });
+
+    function clearErrors() {
+      document.getElementById("titleError").innerText = "";
+      document.getElementById("companyError").innerText = "";
+      document.getElementById("locationError").innerText = "";
+      document.getElementById("typeError").innerText = "";
+      document.getElementById("postedDateError").innerText = "";
+    }
+  </script>
+}

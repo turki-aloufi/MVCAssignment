@@ -1,0 +1,30 @@
+@model List<JobListing>
+
+<h1>Job Listing</h1>
+<table class="table">
+  <thead>
+    <tr>
+      <th>
+        Title
+      </th>
+      <th>
+        Company
+      </th>
+      <th>
+        Details
+      </th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+    @foreach (JobListing job in Model)
+    {
+      <tr>
+        <th>@job.Title</th>
+        <th>@job.Company</th>
+        <th><a asp-controller="Job" asp-action="Details" asp-route-id="@job.Id" class="btn btn-info">Details</a></th>
+      </tr>
+    }
+  </tbody>
+</table>
